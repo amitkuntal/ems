@@ -1,0 +1,15 @@
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  datasource:
+    username: ak
+    url: jdbc:postgresql://localhost:5432/employee_management
+    password: akpass
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto=create
+server:
+  port: '9000'
