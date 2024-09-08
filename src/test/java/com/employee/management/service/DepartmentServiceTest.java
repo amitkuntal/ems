@@ -2,7 +2,7 @@ package com.employee.management.service;
 
 import com.employee.management.dto.DepartmentDTO;
 import com.employee.management.entity.Department;
-import com.employee.management.exception.DepartmentException;
+import com.employee.management.exception.DepartmentNotFoundException;
 import com.employee.management.repository.DepartmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class DepartmentServiceTest {
     }
 
     @Test
-    public void testGetDepartmentById() throws DepartmentException {
+    public void testGetDepartmentById() throws DepartmentNotFoundException {
         Long id = 1L;
         Department department = new Department();
         department.setId(id);
@@ -49,9 +49,7 @@ public class DepartmentServiceTest {
         Long id = 1L;
         when(departmentRepository.findById(id)).thenReturn(Optional.empty());
 
-        DepartmentException thrown = assertThrows(DepartmentException.class, () -> {
-            departmentService.getDepartmentById(id);
-        });
+        DepartmentNotFoundException thrown = assertThrows(DepartmentNotFoundException.class, () -> departmentService.getDepartmentById(id));
         assertEquals("Department Not found " + id, thrown.getMessage());
     }
 

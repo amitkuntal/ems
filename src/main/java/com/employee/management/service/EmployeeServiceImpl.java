@@ -2,8 +2,7 @@ package com.employee.management.service;
 
 import com.employee.management.dto.EmployeeDTO;
 import com.employee.management.entity.Employee;
-import com.employee.management.exception.DepartmentException;
-import com.employee.management.exception.EmployeeException;
+import com.employee.management.exception.EmployeeNotFoundException;
 import com.employee.management.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,21 +24,21 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public void saveEmployee(Employee employee) throws EmployeeException {
+    public void saveEmployee(Employee employee) throws EmployeeNotFoundException {
         Employee dbEmployee = employeeRepository.findByEmail(employee.getEmail());
         if( dbEmployee !=null && dbEmployee.getId() != employee.getId()){
-            throw new EmployeeException("Employee already exist with email "+ employee.getEmail());
+            throw new EmployeeNotFoundException("Employee already exist with email "+ employee.getEmail());
         }
         employeeRepository.save(employee);
     }
 
     @Override
-    public Employee getEmployeeById(Long id) throws EmployeeException {
+    public Employee getEmployeeById(Long id) throws EmployeeNotFoundException {
         Optional<Employee> employee = employeeRepository.findById(id);
         if(employee.isPresent()){
             return employee.get();
         }else{
-            throw new EmployeeException("Employee Not found for id  "+ id);
+            throw new EmployeeNotFoundException("Employee Not found for id  "+ id);
         }
     }
 

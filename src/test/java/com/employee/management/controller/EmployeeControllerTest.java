@@ -2,7 +2,7 @@ package com.employee.management.controller;
 
 import com.employee.management.dto.EmployeeDTO;
 import com.employee.management.entity.Employee;
-import com.employee.management.exception.EmployeeException;
+import com.employee.management.exception.EmployeeNotFoundException;
 import com.employee.management.service.DepartmentService;
 import com.employee.management.service.EmployeeService;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,7 +55,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void testSaveEmployee() throws EmployeeException {
+    public void testSaveEmployee() throws EmployeeNotFoundException {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         Employee employee = new Employee();
         when(employeeService.dtoToEmployeeConverter(employeeDTO)).thenReturn(employee);
@@ -78,7 +78,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void testEditEmployee() throws EmployeeException {
+    public void testEditEmployee() throws EmployeeNotFoundException {
         Long id = 1L;
         Employee employee = new Employee();
         EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -93,9 +93,9 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void testEditEmployeeThrowsException() throws EmployeeException {
+    public void testEditEmployeeThrowsException() throws EmployeeNotFoundException {
         Long id = 1L;
-        when(employeeService.getEmployeeById(id)).thenThrow(new EmployeeException("Error"));
+        when(employeeService.getEmployeeById(id)).thenThrow(new EmployeeNotFoundException("Error"));
 
         String viewName = employeeController.editEmployee(id, model);
         assertEquals("index", viewName);

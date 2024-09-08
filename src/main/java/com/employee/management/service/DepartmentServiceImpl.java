@@ -3,7 +3,7 @@ package com.employee.management.service;
 
 import com.employee.management.dto.DepartmentDTO;
 import com.employee.management.entity.Department;
-import com.employee.management.exception.DepartmentException;
+import com.employee.management.exception.DepartmentNotFoundException;
 import com.employee.management.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ public class DepartmentServiceImpl implements DepartmentService{
     @Autowired
     DepartmentRepository departmentRepository;
     @Override
-    public Department getDepartmentById(Long id) throws DepartmentException {
+    public Department getDepartmentById(Long id) throws DepartmentNotFoundException {
         Optional<Department> departmentOptional = departmentRepository.findById(id);
         if(departmentOptional.isPresent()){
             return departmentOptional.get();
         }else{
-            throw new DepartmentException("Department Not found " + id);
+            throw new DepartmentNotFoundException("Department Not found " + id);
         }
     }
 

@@ -1,9 +1,8 @@
 package com.employee.management.controller;
 
 import com.employee.management.dto.EmployeeDTO;
-import com.employee.management.entity.Department;
 import com.employee.management.entity.Employee;
-import com.employee.management.exception.EmployeeException;
+import com.employee.management.exception.EmployeeNotFoundException;
 import com.employee.management.service.DepartmentService;
 import com.employee.management.service.EmployeeService;
 import org.slf4j.Logger;
@@ -46,7 +45,7 @@ public class EmployeeController {
             employeeService.saveEmployee(employee);
             log.info("Employee with id: {} successfully saved", employee.getId());
             return "redirect:/";
-        } catch (EmployeeException ex){
+        } catch (EmployeeNotFoundException ex){
             log.error("Error adding employee with email: {}", employeeDTO.getEmail(), ex);
             model.addAttribute("error", ex.getMessage());
             return newEmployeeForm(model);
@@ -77,7 +76,7 @@ public class EmployeeController {
             model.addAttribute("departments", departmentService.getAllDepartment());
             model.addAttribute("employee", employeeService.employeeToDtoConverter(employee));
             return "update_employee";
-        }catch (EmployeeException ex){
+        }catch (EmployeeNotFoundException ex){
             log.error("Error getting employee with id: {}", id, ex);
             model.addAttribute("error", ex.getMessage());
             return viewHomePage(model);

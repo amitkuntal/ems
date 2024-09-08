@@ -2,7 +2,7 @@ package com.employee.management.controller;
 
 import com.employee.management.dto.DepartmentDTO;
 import com.employee.management.entity.Department;
-import com.employee.management.exception.DepartmentException;
+import com.employee.management.exception.DepartmentNotFoundException;
 import com.employee.management.service.DepartmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +37,7 @@ public class DepartmentController {
             DepartmentDTO departmentDTO = departmentService.departmentToDTOConverter(department);
             model.addAttribute("department", departmentDTO);
             return "update_department";
-        } catch (DepartmentException ex) {
+        } catch (DepartmentNotFoundException ex) {
             log.error("Error getting department with id: {}", id, ex);
             model.addAttribute("error", ex.getMessage());
             return getAllDepartment(model);

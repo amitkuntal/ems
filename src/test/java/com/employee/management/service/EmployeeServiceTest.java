@@ -3,8 +3,8 @@ package com.employee.management.service;
 import com.employee.management.dto.EmployeeDTO;
 import com.employee.management.entity.Department;
 import com.employee.management.entity.Employee;
-import com.employee.management.exception.DepartmentException;
-import com.employee.management.exception.EmployeeException;
+import com.employee.management.exception.DepartmentNotFoundException;
+import com.employee.management.exception.EmployeeNotFoundException;
 import com.employee.management.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +53,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void testSaveEmployee() throws EmployeeException, DepartmentException {
+    public void testSaveEmployee() throws EmployeeNotFoundException, DepartmentNotFoundException {
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setId(1L);
         employeeDTO.setName("Amit Kuntal");
@@ -85,14 +85,14 @@ public class EmployeeServiceTest {
         employee1.setId(1L);
 
         when(employeeRepository.findByEmail(employee.getEmail())).thenReturn(employee); // Simulate existing employee with the same email
-        EmployeeException thrown = assertThrows(EmployeeException.class, () -> {
+        EmployeeNotFoundException thrown = assertThrows(EmployeeNotFoundException.class, () -> {
             employeeService.saveEmployee(employee1);
         });
         assertEquals("Employee already exist with email amit.kuntal@gmail.com", thrown.getMessage());
     }
 
     @Test
-    public void testGetEmployeeById() throws EmployeeException {
+    public void testGetEmployeeById() throws EmployeeNotFoundException {
         Long id = 1L;
         Employee employee = new Employee();
         employee.setId(id);
@@ -116,7 +116,7 @@ public class EmployeeServiceTest {
         Long id = 1L;
         when(employeeRepository.findById(id)).thenReturn(Optional.empty());
 
-        EmployeeException thrown = assertThrows(EmployeeException.class, () -> {
+        EmployeeNotFoundException thrown = assertThrows(EmployeeNotFoundException.class, () -> {
             employeeService.getEmployeeById(id);
         });
         assertEquals("Employee Not found for id  1", thrown.getMessage());

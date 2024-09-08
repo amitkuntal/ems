@@ -2,7 +2,7 @@ package com.employee.management.controller;
 
 import com.employee.management.dto.DepartmentDTO;
 import com.employee.management.entity.Department;
-import com.employee.management.exception.DepartmentException;
+import com.employee.management.exception.DepartmentNotFoundException;
 import com.employee.management.service.DepartmentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +60,7 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void testGetDepartmentById() throws DepartmentException {
+    public void testGetDepartmentById() throws DepartmentNotFoundException {
         Long id = 1L;
         Department department = new Department();
         DepartmentDTO departmentDTO = new DepartmentDTO(id, "HR");
@@ -73,9 +73,9 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void testGetDepartmentByIdThrowsException() throws DepartmentException {
+    public void testGetDepartmentByIdThrowsException() throws DepartmentNotFoundException {
         Long id = 1L;
-        when(departmentService.getDepartmentById(id)).thenThrow(new DepartmentException("Department not found"));
+        when(departmentService.getDepartmentById(id)).thenThrow(new DepartmentNotFoundException("Department not found"));
 
         String viewName = departmentController.getDepartmentByid(id, model);
         assertEquals("departments", viewName);
@@ -83,7 +83,7 @@ public class DepartmentControllerTest {
     }
 
     @Test
-    public void testUpdateDepartment() throws DepartmentException {
+    public void testUpdateDepartment() throws DepartmentNotFoundException {
         Long id = 1L;
         String departmentName = "Finance";
         DepartmentDTO departmentDTO = new DepartmentDTO(id, departmentName);
